@@ -45,6 +45,7 @@ public class 가위바위보게임 {
 			}
 		} // end while
 		System.out.printf("무승부 : %d, 승리 : %d, 패배 : %d", drawCnt, winCnt, loseCnt);
+		
 		System.out.println();
 
 		System.out.printf("%.3f%%승률", ((float)winCnt / ((float)drawCnt + winCnt + loseCnt) * 100.0f));
