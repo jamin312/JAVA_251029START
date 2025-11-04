@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="speaker" class="com.container.AppleSpeaker"></bean>
+	<bean id="tv" class="com.factory.SamsungTV">
+		<!-- 생성자 의존성 주입 -->
+		<!-- <constructor-arg ref="speaker"></constructor-arg> -->
+
+		<!-- setter 의존성 주입 name은 필드명, ref는 id 이름 -->
+		<property name="speaker" ref="speaker"></property>
+	</bean>
+
+</beans>
