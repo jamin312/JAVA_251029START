@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.BoardMapper">
+	<!-- PK는 id, 나머지는 result -->
+	<resultMap type="BoardVO" id="boardmap">
+		<id column="BNO" property="bno"/>
+		<result column="title" property="title"/>
+		<result column="writer" property="writer"/>
+		<result column="regdate" property="regdate"/>
+		<result column="updatedate" property="updatedate"/>
+		<collection property="reply" ofType="ReplyVO">
+		    <id column="rno" property="rno"/>
+		    <result column="reply" property="reply"/>
+		    <result column="replyer" property="replyer"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getList" resultMap="boardmap">
+        SELECT a.*,
+               b.rno,
+               b.reply,
+               b.replyer
+        FROM   tbl_board a
+        LEFT OUTER JOIN tbl_reply b ON (a.bno = b.bno)
+	</select>	
+	
+	<insert id="insertBoard">
+	    <selectKey keyProperty="bno" order="BEFORE" resultType="Long">
+	      SELECT seq_board.nextval
+	      FROM   dual
+	    </selectKey>
+        INSERT INTO tbl_board(bno, title, content, writer)
+        VALUES (#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<update id="updateBoard">
+		UPDATE tbl_board
+		SET    title = #{title}, content = #{content}
+		WHERE  bno = #{bno}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE tbl_board
+		WHERE bno = #{bno}
+	</delete>
+	
+	<select id="getListByBno">
+	    SELECT *
+	    FROM   tbl_board
+	    WHERE  bno = #{bno}
+	</select> 
+	
+	<select id="getListByWriter">
+	    SELECT *
+	    FROM   tbl_board
+	    <where>
+	      <if test="writer != null"> AND writer like ('%${writer}%') </if>
+	      <if test="title != null"> AND title like ('%${title}%') </if>
+	    </where>  
+	</select>
+	
+</mapper>

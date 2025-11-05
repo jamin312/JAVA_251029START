@@ -8,14 +8,16 @@ http://www.springframework.org/schema/context https://www.springframework.org/sc
 http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	<!-- datasource -->
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+			 <property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" /> -->
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe" />
 		<property name="username" value="hr" />
 		<property name="password" value="hr" />
 	</bean>
-	
+
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
@@ -23,11 +25,9 @@ http://www.springframework.org/schema/beans https://www.springframework.org/sche
 	<!-- mybatis SessionFactory -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<!--<property name="mapperLocations"
-			value="classpath:mapper/*.xml" /> -->
-		 <property name="configLocation"
+		<!--<property name="mapperLocations" value="classpath:mapper/*.xml" /> -->
+		<property name="configLocation"
 			value="classpath:sql-map-config.xml" />
 	</bean>
-	<mybatis-spring:scan
-		base-package="com.mapper"></mybatis-spring:scan>
+	<mybatis-spring:scan base-package="com.mapper"></mybatis-spring:scan>
 </beans>

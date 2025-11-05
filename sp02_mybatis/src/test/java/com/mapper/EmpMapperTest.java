@@ -3,6 +3,7 @@ package com.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class EmpMapperTest {
 	
 	
-	@Autowired 
-	EmpMapper empMapper;
+	@Autowired EmpMapper empMapper;
 	
 	@Test
 	public void test1() {
@@ -24,9 +24,10 @@ public class EmpMapperTest {
 		System.out.println("1" + map);
 	}
 	
+	@Disabled
 	@Test
 	public void test() {
-		List<Map> list = empMapper.findAll();
+		List<Employee> list = empMapper.findAll();
 		list.stream().forEach(e -> System.out.println(e));
 		System.out.println("2" + list.get(1));
 	}

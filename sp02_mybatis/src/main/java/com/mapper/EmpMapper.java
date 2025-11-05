@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 // Mapper를 넣는 이유 : ?
 @Mapper
 public interface EmpMapper {
-	List<Map> findAll(); // 여러 건
+	List<Employee> findAll(); // 여러 건
 	Map findOne(int id); // 단 건
 }

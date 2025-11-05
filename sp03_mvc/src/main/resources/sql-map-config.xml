@@ -7,7 +7,6 @@
    </settings> 
    <typeAliases>   
       <!-- <typeAlias alias="board" type="com.springbook.board.BoardVO" /> --> 
-      <typeAlias type="com.mapper.Employee" alias="employee"/>
       <package name="com"/> 
    </typeAliases> 
    <typeHandlers> 
