@@ -4,12 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>hello</title>
+<title>views/success.jsp</title>
 </head>
 <body>
-<div>
-<h3>myDog</h3>
-</div>
-<img src="/file/myDog.jpg" width="300">
+가입완료 : ${param.date}
+<br>
+${param.name}
+<script>
+let msg = "${msg}"; 
+if(msg){
+	alert(msg)
+}
+</script>
 </body>
 </html>

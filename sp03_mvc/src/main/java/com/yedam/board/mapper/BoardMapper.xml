@@ -40,9 +40,10 @@
 		WHERE  bno = #{bno}
 	</update>
 	
-	<delete id="deleteBoard">
-		DELETE tbl_board
-		WHERE bno = #{bno}
+	<!-- 프로시저 이용한 게시글 삭제 -->
+	<delete id="deleteBoard" statementType="CALLABLE" parameterType="Map">		
+		{ call RPOC_BOARD_DELETE( #{bno},
+		                          #{result, mode=OUT, jdbcType=VARCHAR, javaType=string} ) }
 	</delete>
 	
 	<select id="getListByBno">
@@ -60,4 +61,14 @@
 	    </where>  
 	</select>
 	
+	<!-- 
+	<insert id="insertReply">
+		<selectKey keyProperty="rno" order="BEFORE" resultType="Long">
+	      SELECT seq_reply.nextval
+	      FROM   dual
+	    </selectKey>
+		INSERT INTO tbl_reply(rno, bno, reply, replyer)
+        VALUES (#{rno}, #{bno}, #{repy}, #{replyer})
+	</insert>
+	 -->
 </mapper>

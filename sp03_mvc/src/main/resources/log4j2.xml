@@ -32,6 +32,10 @@
 			<AppenderRef ref="Console" />
 		</Logger>
 		
+		<Logger name="org.springframework.web" level="debug" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		
 		<Root level="info">
 			<AppenderRef ref="Console" />
 		</Root>
