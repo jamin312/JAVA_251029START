@@ -61,10 +61,6 @@ public class BoardController {
 		boardMapper.deleteBoard(map);
 		return "redirect:/board";
 	}
-	
-	// 댓글 등록
-//	@PostMapping("/board/reply")
-//	public String regiReply(ReplyVO reply) {
-//		return "redirect:/board";
-//	}
+
+
 }

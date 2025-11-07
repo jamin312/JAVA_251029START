@@ -15,8 +15,6 @@ public class BoardMapperTest {
 	
 	@Autowired BoardMapper boardMapper;
 	
-	
-	
 	@Test
 	void deleteTest() {
 		Map<String, Object> map = new HashMap<>();
@@ -27,4 +25,7 @@ public class BoardMapperTest {
 		
 		System.out.println("result= " + map.get("result"));
 	}
+	
+	
+	
 }
