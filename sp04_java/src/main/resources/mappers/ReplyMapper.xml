@@ -11,6 +11,7 @@
                updatedate
 	 	FROM   tbl_reply
 	 	WHERE  bno = #{bno}
+	 	ORDER BY rno DESC
 	 </select>
 	 
 	<insert id="regiReply">
