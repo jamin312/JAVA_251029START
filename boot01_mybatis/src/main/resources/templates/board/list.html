@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>board/list</title>
+
+<style>
+.writer {
+	color:darkblue;
+}
+.bold {
+	font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+		<a th:href="@{/board/{bno}/{rno}/info(bno=7, rno=10)}">링크 연습</a>
+		<table>
+			<tr>
+				<th>순서</th>
+				<th>글 번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>작성일자</th>
+			</tr>
+			<tr th:each="board, stat : ${list}" th:object="${board}">
+				<td>[[${stat.count}]]</td>
+				<td>[[${board.bno}]]</td>
+				<!--/* |/board/info?bno=${board.bno}| `` 처럼 사용 */-->
+				<!--/* <a th:href= "|/board/info?bno=${board.bno}|" th:text="*{title}"></a> */-->
+				<td><a th:href="@{/board/info(bno=${board.bno})}"
+					th:text="*{title}"></a></td>
+				<td th:text="${board.writer}" class="writer" th:classappend="${board.writer == '황지원' ? 'bold' : _ }"></td>
+				<td th:text="${#dates.format(board.regdate, 'yyyy-MM-dd HH:mm')}"></td>
+			</tr>
+		</table>
+	</div>
+	<!--/* ~{footer::copyKr} ::뒤에 fragment 이름 적어주면 해당되는 fragment만 출력 
+ 		~{} 는 경로 */-->
+	<div id="mainfooter" th:replace="~{footer::copyKr}"></div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,10 +10,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+${header["user-agent"]}
+<hr>
+쿠키 : ${cookie.JSESSIONID.value}
 <div class="container-lg py-3">
 
   <div class="d-flex align-items-center justify-content-between mb-3">
   	<h3 class="mb-0">게시글 목록</h3>
+  	<my:header></my:header>
+  	<my:search/>
+  	<div>총 게시글 수 ${fn:length(list)}</div>
   	<a href="/board/register" class="btn btn-outline-primary btn-sm">글 등록</a>
   </div>
 
@@ -22,7 +30,11 @@
   <!-- 모든 댓글 패널의 공통 아코디언 부모 -->
   <div id="commentsAccordion" class="accordion">
 
-    <c:forEach items="${list}" var="board">
+    <c:forEach items="${list}" var="board" varStatus="status">
+    <c:if test="${status.first}">
+	    <div>목록 시작</div>
+    </c:if>
+    <div>${status.count }</div>
       <article class="card mb-3">
         <div class="card-header d-flex justify-content-between">
           <strong>#<c:out value="${board.bno}"/></strong>

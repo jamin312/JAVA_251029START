@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8">
+<title>static/emp.html</title>
+
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous">
+</script>
+
+<style>
+  :root{
+    --bg:#ffffff; --fg:#111827; --muted:#6b7280;
+    --border:#e5e7eb; --head-bg:#f8fafc; --zebra:#fafafa; --hover:#eef6ff;
+    --chip-bg:#eef2ff; --chip-border:#c7d2fe;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0b0f13; --fg:#e5e7eb; --muted:#9ca3af;
+      --border:#1f2937; --head-bg:#111827; --zebra:#0f141a; --hover:#0f1b2a;
+      --chip-bg:#0f1b2a; --chip-border:#213a63;
+    }
+  }
+
+  /* 표 컨테이너를 가로 스크롤 가능하게 */
+  body[layout\:fragment="content"] > div { overflow-x:auto; }
+
+  /* 테이블 기본 스타일 */
+  body[layout\:fragment="content"] > div > table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    table-layout:fixed;           /* 말줄임 처리에 필요 */
+    background:var(--bg);
+    color:var(--fg);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
+    min-width:880px;              /* 좁을 땐 가로 스크롤 */
+    overflow:hidden;              /* 둥근 모서리 유지 */
+  }
+  /* HTML의 border="1" 영향 제거 */
+  body[layout\:fragment="content"] > div > table td,
+  body[layout\:fragment="content"] > div > table th{ border:none; }
+
+  /* 헤더(고정) */
+  thead th{
+    position:sticky; top:0; z-index:2;
+    background:var(--head-bg);
+    color:var(--muted);
+    font-weight:700;
+    text-align:left;
+    padding:12px 14px;
+    border-bottom:1px solid var(--border);
+  }
+
+  /* 바디 */
+  tbody td{
+    padding:12px 14px;
+    vertical-align:middle;
+    border-bottom:1px solid var(--border);
+    word-break:break-word;
+  }
+  /* 줄무늬 + 호버 */
+  tbody tr:nth-child(odd){ background:var(--zebra); }
+  tbody tr:hover{ background:var(--hover); }
+
+  /* 컬럼 너비 & 정렬 (1:deptId, 2:jobId, 3:empId, 4:first, 5:last, 6:email, 7:salary, 8:hireDate) */
+  thead th:nth-child(1){ width:8ch; }
+  thead th:nth-child(2){ width:10ch; }
+  thead th:nth-child(3){ width:9ch; }
+  thead th:nth-child(4){ width:12ch; }
+  thead th:nth-child(5){ width:12ch; }
+  thead th:nth-child(6){ width:24ch; }
+  thead th:nth-child(7){ width:12ch; text-align:right; }
+  thead th:nth-child(8){ width:14ch; text-align:center; }
+
+  /* 숫자/날짜 정렬 & 균등 자폭 */
+  tbody td:nth-child(7){ text-align:right; font-variant-numeric:tabular-nums; }
+  tbody td:nth-child(8){ text-align:center; font-variant-numeric:tabular-nums; }
+
+  /* 이름/이메일 말줄임 */
+  tbody td:nth-child(4),
+  tbody td:nth-child(5),
+  tbody td:nth-child(6){
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+
+
+  /* 모서리 둥글게 (첫/마지막 행) */
+  thead tr th:first-child{ border-top-left-radius:14px; }
+  thead tr th:last-child{ border-top-right-radius:14px; }
+  tbody tr:last-child td:first-child{ border-bottom-left-radius:14px; }
+  tbody tr:last-child td:last-child{ border-bottom-right-radius:14px; }
+</style>
+
+</head>
+<body layout:fragment="content">
+	<h3>사원 관리</h3>
+	<div>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>deptId</th>
+					<th>jobId</th>
+					<th>empId</th>
+					<th>first Name</th>
+					<th>last Name</th>
+					<th>email</th>
+					<th>salary</th>
+					<th>hireDate</th>
+				</tr>
+			</thead>
+			<tbody id="empList">
+			</tbody>
+		</table>
+	</div>
+	<script>
+function getList() {
+	fetch("/emp")
+	.then(res => res.json())
+	.then(result => {
+		$(result).each((idx, ele) => {	
+			console.log(ele);
+			const newTag = (`
+			<tr>
+			 <td>${ele.departmentId}</td>
+			 <td>${ele.jobId}</td>
+			 <td>${ele.employeeId}</td>
+			 <td>${ele.firstName}</td>
+			 <td>${ele.lastName}</td>
+			 <td>${ele.email}</td>
+			 <td>${ele.salary}</td>
+			 <td>${ele.hireDate}</td>
+			</tr>`);
+			$("#empList").append($(newTag));			
+		})
+	})
+}
+getList();
+</script>
+</body>
+</html>
