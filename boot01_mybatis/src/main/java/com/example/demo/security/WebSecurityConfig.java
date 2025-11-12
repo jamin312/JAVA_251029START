@@ -22,21 +22,33 @@ public class WebSecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(5);
 	}
-
+	
+	@Bean
+	public AuthenticationSuccessHandler authenticationSuccessHandler() {
+		return new CustomLoginSuccessHandler();
+	}
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests((requests) -> requests.
-				requestMatchers("/", "/home", "/css/*", "/js/*", "/assets/*")
-				.permitAll().requestMatchers("/admin/*", "/empMain").hasRole("ADMIN")
-				.anyRequest().authenticated())
-				.formLogin((form) -> form.permitAll().loginPage("/login")
-//						.usernameParameter("userId")
-						.successForwardUrl("/empMain"))
-				.logout((logout) -> logout.deleteCookies("JSESSIONID").permitAll())
-				// .csrf((csrf) -> csrf.ignoringRequestMatchers("/api/*")   );
-				.csrf((csrf) -> csrf.disable());
-		;
-
-		return http.build();
+	    http
+	        .authorizeHttpRequests(requests -> requests
+	            .requestMatchers("/", "/home", "/css/*", "/js/*", "/assets/*").permitAll()
+	            .requestMatchers("/admin/*", "/empMain").hasRole("ADMIN")
+	            .anyRequest().authenticated()
+	        )
+	        .formLogin(form -> form
+	            .loginPage("/login")
+	            .usernameParameter("userId")
+	            .successHandler(authenticationSuccessHandler())
+	            .permitAll()
+	        )
+	        .logout(logout -> logout
+	            .deleteCookies("JSESSIONID")
+	            .permitAll()
+	        );
+	        // .csrf(csrf -> csrf.ignoringRequestMatchers("/api/*"));
+//	        .csrf(csrf -> csrf.disable());
+	    return http.build();
 	}
-}
+	
+} // end class
