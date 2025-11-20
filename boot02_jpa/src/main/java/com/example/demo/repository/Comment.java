@@ -1,7 +1,9 @@
 package com.example.demo.repository;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+//import org.springframework.data.annotation.CreatedDate;
+//import org.springframework.data.annotation.LastModifiedDate;
+
+import com.example.demo.common.BaseTimeEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "comments")
 @Entity
-public class Comment {
+public class Comment extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,13 +33,13 @@ public class Comment {
 	@Column(columnDefinition = "clob", nullable = false)
 	private String content; // 댓글 내용     
 	
-	@Column(name = "created_date")
-	@CreatedDate
-	private String createdDate;
-	
-	@Column(name = "modified_date")
-	@LastModifiedDate
-	private String modifiedDate;
+//	@Column(name = "created_date")
+//	@CreatedDate
+//	private String createdDate;
+//	
+//	@Column(name = "modified_date")
+//	@LastModifiedDate
+//	private String modifiedDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "posts_id")

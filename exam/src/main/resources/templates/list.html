@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html  
+xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous">
+</script>
+</head>
+<body layout:fragment="content">
+<form>
+<div>
+<table border="1">
+	<thead>
+		<tr>
+			<th>도서번호</th>
+			<th>도서명</th>
+			<th>표지</th>
+			<th>출판일자</th>
+			<th>금액</th>
+			<th>출판사</th>
+			<th>도서소개</th>
+		</tr>
+	</thead>
+	<tbody id="bookList">
+	</tbody>
+</table>
+</div>
+</form>
+<script>
+function getList() {
+	fetch("/listBook")
+	.then(res => res.json())
+	.then(result => {
+		console.log(result);
+		$(result).each((idx, ele) => {	
+			console.log(ele);
+			const bookPrice = ele.bookPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			const newTag = (`
+			<tr>
+			 <td>${ele.bookNo}</td>
+			 <td><a href="/bookInfo">${ele.bookName}</a></td>
+			 <td>${ele.bookCoverimg}</td>
+			 <td>${ele.bookDate}</td>
+			 <td>${bookPrice}</td>
+			 <td>${ele.bookPublisher}</td>
+			 <td>${ele.bookInfo}</td>
+			</tr>`);
+			$("#bookList").append($(newTag));			
+		})
+	})
+}
+
+getList();
+</script>
+</body>
+</html>

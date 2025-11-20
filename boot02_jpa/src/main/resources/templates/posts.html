@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<form>
+		제목: <input id="title"><br>
+		작성자: <input id="author"><br>
+		<textarea rows="3" cols="50" id="content"></textarea>
+		<button type="button" id="btn-save">등록</button>
+	</form>
+	
+	<script>
+	// _this는 main 객체를 , this는 init을 
+		var main = { init : function(){
+						var  _this = this;
+						$("#btn-save").on("click", function(){
+							_this.save();
+						}) // end btn-save click
+					 }, // end init function 
+					 
+					 save : function(){
+						 var data = {
+							title : $("#title").val(),
+							author : $("#author").val(),
+							content : $("#content").val()
+						 }; // end var date
+						
+						 $.ajax({
+							 type: "POST",
+							 url: "api/v1/posts",
+							 dataType: "json",
+							 contentType: "application/json; charset=utf-8",
+							 data: JSON.stringify(data)
+						 }) // end ajax
+						 .done((result) => {
+							 alert("글이 등록되었습니다.")
+							 location.href = "/";
+						 }) // end done
+						 .fail((error) => {
+							 alert(JSON.stringify(error));
+						 }); // end fail
+					 } // end save function
+					}; // end main
+		main.init();
+					
+	</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
+import com.example.demo.common.BaseTimeEntity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Address {
+public class Address extends BaseTimeEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

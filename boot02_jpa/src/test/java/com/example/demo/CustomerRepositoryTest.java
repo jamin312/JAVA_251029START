@@ -46,7 +46,7 @@ public class CustomerRepositoryTest {
 
 	} // end 고객_조회
 
-	@Disabled
+//	@Disabled
 	@Test
 	public void 고객_수정() {
 		// given - 초기 데이터 저장
@@ -151,7 +151,8 @@ public class CustomerRepositoryTest {
 			System.out.println(e.getId() + ":" + e.getEmail());
 		});
 	} // end test
-
+	
+	@Disabled
 	@Test
 	public void 일대다() {
 		// given(준비)

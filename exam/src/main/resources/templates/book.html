@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout}"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<body layout:fragment="content">
+	<form>
+	<div id="container">
+		<label>도서번호</label>
+		<input id="bookNo" readonly>
+		<br>
+		
+		<label>도서명</label>
+		<input id="bookName">
+		<br>
+		
+		<label>도서표지</label>
+		<input id="bookCoverimg">
+		<br>
+		
+		<label>출판일자</label>
+		<input type="date" id="bookDate">
+		<br>
+		
+		<label>금액</label>
+		<input type="number" id="bookPrice">
+		<br>
+		
+		<label>출판사</label>
+		<input id="bookPublisher">
+		<br>
+		
+		<label>도서소개</label>
+		<textarea id="bookInfo"></textarea>
+		<br>
+		
+		<button type="button" id="btn-save">등록</button>
+		<button type="button">조회</button>
+		
+	</div>
+	</form>
+
+
+<script>
+var main = { init : function(){
+	var  _this = this;
+	$("#btn-save").on("click", function(){
+		_this.save();
+	}) // end btn-save click
+ }, // end init function 
+ 
+ save : function(){
+	 if(!$("#bookName").val()) {
+		 alert("도서명이 입력되지 않았습니다.")
+		 $("#bookName").focus();
+		 return;
+	 }
+	 
+	 var data = {
+		bookNo : $("#bookNo").val(),
+		bookName : $("#bookName").val(),
+		bookCoverimg : $("#bookCoverimg").val(),
+		bookDate : $("#bookDate").val(),
+		bookPrice : $("#bookPrice").val(),
+		bookPublisher : $("#bookPublisher").val(),
+		bookInfo : $("#bookInfo").val()
+	 }; // end var date
+	
+	 $.ajax({
+		 type: "POST",
+		 url: "/regiBook",
+		 dataType: "json",
+		 contentType: "application/json; charset=utf-8",
+		 data: JSON.stringify(data)
+	 }) // end ajax
+	 .done((result) => {
+		 alert("도서가 등록되었습니다.")
+		 location.href = "/home";
+	 }) // end done
+	 .fail((error) => {
+		 alert(JSON.stringify(error));
+	 }); // end fail
+ } // end save function
+}; // end main
+main.init();
+</script>
+</body>
+<style>
+#container {
+	text-align:center
+}
+</style>
+</html>
